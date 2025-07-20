@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"strconv"
 
 	"leakGuard/parse"
@@ -13,7 +14,16 @@ import (
 )
 
 func sendToTelegram(repos []parse.RepoList) {
-	enverr := godotenv.Load()
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		log.Printf("Error getting home directory: %sv\n", err)
+		return
+	}
+
+	configDir := filepath.Join(homedir, ".config", "leakGuard")
+	filePath := filepath.Join(configDir, ".env")
+
+	enverr := godotenv.Load(filePath)
 	if enverr != nil {
 		log.Fatal("Error Loading .env file")
 	}
