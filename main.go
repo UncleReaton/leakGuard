@@ -13,5 +13,6 @@ func main() {
 
 	if len(additions) > 0 {
 		sendToTelegram(additions)
+		sendToDiscord(additions)
 	}
 }
